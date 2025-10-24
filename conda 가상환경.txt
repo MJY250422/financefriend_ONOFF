@@ -1,0 +1,6 @@
+C:\Users\USER\Desktop\깃허브\financefriend_ONOFF>conda env list
+
+# conda environments:
+#
+base                   C:\Users\USER\anaconda3
+financial_friend_minzero   C:\Users\USER\anaconda3\envs\financial_friend_minzero
