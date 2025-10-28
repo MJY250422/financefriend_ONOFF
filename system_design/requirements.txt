@@ -15,3 +15,6 @@ python-multipart==0.0.6
 
 # 환경변수 관리
 python-dotenv==1.0.0
+
+# HTTP 클라이언트 (테스트 스크립트용)
+requests>=2.31.0

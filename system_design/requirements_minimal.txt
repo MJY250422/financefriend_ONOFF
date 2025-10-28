@@ -1,0 +1,28 @@
+# 최소 필수 패키지 (개발/테스트용)
+# SQLite 사용 시 PostgreSQL 드라이버 불필요
+
+# FastAPI 및 서버
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+
+# 데이터베이스 (SQLite는 Python 기본 내장)
+sqlalchemy==2.0.25
+
+# 데이터 검증 (더 안정적인 버전)
+pydantic==2.5.3
+pydantic[email]==2.5.3
+
+# 비밀번호 해싱
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# 환경변수 관리
+python-dotenv==1.0.0
+
+# HTTP 클라이언트 (테스트용)
+requests>=2.31.0
+
+# 이메일 검증
+email-validator>=2.0.0
+
+
