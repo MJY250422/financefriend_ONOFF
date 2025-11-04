@@ -58,17 +58,17 @@ app.include_router(dialogues.router, prefix="/api/v1/dialogues", tags=["Dialogue
 @app.on_event("startup")
 async def startup_event():
     """애플리케이션 시작 시 실행"""
-    print("🚀 Starting News Agent API...")
+    print("[INFO] Starting News Agent API...")
     try:
         init_db()
-        print("✅ Database initialized")
+        print("[SUCCESS] Database initialized")
     except Exception as e:
-        print(f"⚠️ Database initialization failed: {e}")
+        print(f"[WARNING] Database initialization failed: {e}")
 
 @app.on_event("shutdown")
 async def shutdown_event():
     """애플리케이션 종료 시 실행"""
-    print("👋 Shutting down News Agent API...")
+    print("[INFO] Shutting down News Agent API...")
 
 # -----------------------------
 # 헬스 체크 엔드포인트

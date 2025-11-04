@@ -11,13 +11,39 @@ secrets.json
 .streamlit/secrets.toml
 system_design/CREDENTIALS_SETUP.md
 
-# 파이썬 캐시파일
+# Python 캐시 및 컴파일 파일
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
 
+# 가상환경
 venv/
-venv311/
-system_design/venv311/
-*.pyc
-__pycache__/
+venv*/
+ENV/
+env/
+system_design/venv*/
+
+# IDE 설정
 .vscode/
+.idea/
+
+# 데이터베이스 파일
+*.db
+*.sqlite
+*.sqlite3
+
+# 백업 및 임시 파일
+*.backup
+*.bak
+*.tmp
+*~
+.DS_Store
+
+# 로그 파일
+*.log
+
+# 환경 변수 템플릿은 제외하고 실제 파일만 무시
+!env_template.txt
+!*_template.txt

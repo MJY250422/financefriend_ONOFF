@@ -5,39 +5,11 @@ from sqlalchemy import (
 )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-import enum
+
+# Import enums from enums.py
+from enums import UserType, InteractionType, SenderType, TaskStatus
 
 Base = declarative_base()
-
-
-class UserType(enum.Enum):
-    """사용자 유형 Enum"""
-    ADMIN = "admin"
-    USER = "user"
-    GUEST = "guest"
-
-
-class InteractionType(enum.Enum):
-    """사용자 상호작용 유형 Enum"""
-    CLICK = "click"
-    VIEW = "view"
-    SHARE = "share"
-    LIKE = "like"
-
-
-class SenderType(enum.Enum):
-    """대화 발신자 유형 Enum"""
-    USER = "user"
-    ASSISTANT = "assistant"
-    SYSTEM = "system"
-
-
-class TaskStatus(enum.Enum):
-    """작업 상태 Enum"""
-    PENDING = "pending"
-    IN_PROGRESS = "in_progress"
-    COMPLETED = "completed"
-    FAILED = "failed"
 
 
 class User(Base):
@@ -45,7 +17,7 @@ class User(Base):
     __tablename__ = 'users'
     
     user_id = Column(String(36), primary_key=True)
-    user_type = Column(Enum(UserType), nullable=False)
+    user_type = Column(Enum(UserType, native_enum=False, length=20), nullable=False)
     email = Column(String(100), unique=True, nullable=False)
     password_hash = Column(String(255), nullable=False)
     username = Column(String(50), unique=True)
@@ -80,7 +52,7 @@ class News(Base):
     """뉴스 테이블"""
     __tablename__ = 'news'
     
-    news_id = Column(BigInteger, primary_key=True, autoincrement=True)
+    news_id = Column(Integer, primary_key=True)
     title = Column(String(500), nullable=False)
     url = Column(String(1000), unique=True, nullable=False)
     content = Column(Text)
@@ -99,8 +71,8 @@ class NewsEmbedding(Base):
     """뉴스 임베딩 테이블"""
     __tablename__ = 'news_embeddings'
     
-    embedding_id = Column(BigInteger, primary_key=True, autoincrement=True)
-    news_id = Column(BigInteger, ForeignKey('news.news_id'), nullable=False)
+    embedding_id = Column(Integer, primary_key=True)
+    news_id = Column(Integer, ForeignKey('news.news_id'), nullable=False)
     embedding_vector = Column(LargeBinary, nullable=False)
     model_version = Column(String(50), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -113,10 +85,10 @@ class UserNewsInteraction(Base):
     """사용자-뉴스 상호작용 테이블"""
     __tablename__ = 'user_news_interactions'
     
-    interaction_id = Column(BigInteger, primary_key=True, autoincrement=True)
+    interaction_id = Column(Integer, primary_key=True)
     user_id = Column(String(36), ForeignKey('users.user_id'), nullable=False)
-    news_id = Column(BigInteger, ForeignKey('news.news_id'), nullable=False)
-    interaction_type = Column(Enum(InteractionType), nullable=False)
+    news_id = Column(Integer, ForeignKey('news.news_id'), nullable=False)
+    interaction_type = Column(Enum(InteractionType, native_enum=False, length=20), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     
     # Relationships
@@ -145,13 +117,13 @@ class AgentTask(Base):
     """에이전트 작업 테이블"""
     __tablename__ = 'agent_tasks'
     
-    task_id = Column(BigInteger, primary_key=True, autoincrement=True)
+    task_id = Column(Integer, primary_key=True)
     agent_id = Column(Integer, ForeignKey('agent_info.agent_id'), nullable=False)
     session_id = Column(Integer, ForeignKey('sessions.session_id'), nullable=False)
-    dialogue_id = Column(BigInteger, ForeignKey('dialogues.dialogue_id'))
+    dialogue_id = Column(Integer, ForeignKey('dialogues.dialogue_id'))
     input_data = Column(JSON)
     output_data = Column(JSON)
-    status = Column(Enum(TaskStatus), default=TaskStatus.PENDING)
+    status = Column(Enum(TaskStatus, native_enum=False, length=20), default=TaskStatus.PENDING)
     error_reason = Column(Text)
     duration_ms = Column(Integer)
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -166,9 +138,9 @@ class Dialogue(Base):
     """대화 테이블"""
     __tablename__ = 'dialogues'
     
-    dialogue_id = Column(BigInteger, primary_key=True, autoincrement=True)
+    dialogue_id = Column(Integer, primary_key=True)
     session_id = Column(Integer, ForeignKey('sessions.session_id'), nullable=False)
-    sender_type = Column(Enum(SenderType), nullable=False)
+    sender_type = Column(Enum(SenderType, native_enum=False, length=20), nullable=False)
     content = Column(Text, nullable=False)
     intent = Column(String(50))
     created_at = Column(DateTime, default=datetime.utcnow)

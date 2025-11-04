@@ -57,10 +57,10 @@ def init_db():
     """데이터베이스 테이블 생성"""
     try:
         Base.metadata.create_all(bind=engine)
-        print("✅ Database tables created successfully")
+        print("[OK] Database tables created successfully")
     except Exception as e:
-        print(f"❌ Database initialization error: {e}")
-        raise  # ✅ 상세한 에러 메시지 확인을 위해 추가
+        print(f"[ERROR] Database initialization error: {e}")
+        raise
 
 
 def get_db() -> Session:

@@ -12,26 +12,26 @@ BASE_URL = "http://localhost:8000/api/v1"
 
 def create_sample_users():
     """샘플 사용자 생성"""
-    print("📝 Creating sample users...")
+    print("[INFO] Creating sample users...")
     
     users = [
         {
             "email": "user1@example.com",
             "password": "password123",
             "username": "김철수",
-            "user_type": "USER"
+            "user_type": "user"
         },
         {
             "email": "user2@example.com",
             "password": "password123",
             "username": "이영희",
-            "user_type": "USER"
+            "user_type": "user"
         },
         {
             "email": "admin@example.com",
             "password": "admin123!",
             "username": "관리자",
-            "user_type": "ADMIN"
+            "user_type": "admin"
         }
     ]
     
@@ -42,9 +42,9 @@ def create_sample_users():
             if response.status_code == 201:
                 created_user = response.json()
                 created_users.append(created_user)
-                print(f"✅ User created: {created_user['email']} (ID: {created_user['user_id']})")
+                print(f"[OK] User created: {created_user['email']} (ID: {created_user['user_id']})")
             elif response.status_code == 400:
-                print(f"⚠️  User already exists: {user['email']}")
+                print(f"[WARN] User already exists: {user['email']}")
                 # 기존 사용자 가져오기
                 response = requests.get(f"{BASE_URL}/users/")
                 if response.status_code == 200:
@@ -53,16 +53,16 @@ def create_sample_users():
                     if existing:
                         created_users.append(existing)
             else:
-                print(f"❌ Failed to create user: {user['email']} - {response.text}")
+                print(f"[ERROR] Failed to create user: {user['email']} - {response.text}")
         except Exception as e:
-            print(f"❌ Error creating user {user['email']}: {e}")
+            print(f"[ERROR] Error creating user {user['email']}: {e}")
     
     return created_users
 
 
 def create_sample_news():
     """샘플 뉴스 생성"""
-    print("\n📰 Creating sample news...")
+    print("\n[INFO] Creating sample news...")
     
     news_items = [
         {
@@ -144,20 +144,20 @@ def create_sample_news():
             if response.status_code == 201:
                 created = response.json()
                 created_news.append(created)
-                print(f"✅ News created: {created['title'][:50]}... (ID: {created['news_id']})")
+                print(f"[OK] News created: {created['title'][:50]}... (ID: {created['news_id']})")
             elif response.status_code == 400:
-                print(f"⚠️  News already exists: {news['title'][:50]}...")
+                print(f"[WARN] News already exists: {news['title'][:50]}...")
             else:
-                print(f"❌ Failed to create news: {news['title'][:50]}... - {response.text}")
+                print(f"[ERROR] Failed to create news: {news['title'][:50]}... - {response.text}")
         except Exception as e:
-            print(f"❌ Error creating news: {e}")
+            print(f"[ERROR] Error creating news: {e}")
     
     return created_news
 
 
 def create_sample_interactions(users, news_items):
     """샘플 상호작용 생성"""
-    print("\n💬 Creating sample interactions...")
+    print("\n[INFO] Creating sample interactions...")
     
     interaction_types = ["click", "view", "like", "share"]
     
@@ -177,16 +177,16 @@ def create_sample_interactions(users, news_items):
                 )
                 if response.status_code == 201:
                     created_interactions += 1
-                    print(f"✅ Interaction created: {user['username']} {interaction_type} news #{news['news_id']}")
+                    print(f"[OK] Interaction created: {user['username']} {interaction_type} news #{news['news_id']}")
             except Exception as e:
-                print(f"❌ Error creating interaction: {e}")
+                print(f"[ERROR] Error creating interaction: {e}")
     
-    print(f"\n✨ Total interactions created: {created_interactions}")
+    print(f"\n[SUCCESS] Total interactions created: {created_interactions}")
 
 
 def create_sample_sessions(users):
     """샘플 세션 생성"""
-    print("\n🔐 Creating sample sessions...")
+    print("\n[INFO] Creating sample sessions...")
     
     created_sessions = []
     for user in users:
@@ -201,27 +201,27 @@ def create_sample_sessions(users):
             if response.status_code == 201:
                 session = response.json()
                 created_sessions.append(session)
-                print(f"✅ Session created for {user['username']} (ID: {session['session_id']})")
+                print(f"[OK] Session created for {user['username']} (ID: {session['session_id']})")
         except Exception as e:
-            print(f"❌ Error creating session: {e}")
+            print(f"[ERROR] Error creating session: {e}")
     
     return created_sessions
 
 
 def create_sample_dialogues(sessions):
     """샘플 대화 생성"""
-    print("\n💭 Creating sample dialogues...")
+    print("\n[INFO] Creating sample dialogues...")
     
     sample_conversations = [
         [
-            {"sender_type": "USER", "content": "안녕하세요! 오늘 주요 금융 뉴스를 알려주세요.", "intent": "greeting"},
-            {"sender_type": "AGENT", "content": "안녕하세요! 오늘의 주요 금융 뉴스를 요약해드리겠습니다. 한국은행이 기준금리를 3.5%로 동결했고, 삼성전자는 배당금을 30% 증액한다고 발표했습니다.", "intent": "response"},
-            {"sender_type": "USER", "content": "원/달러 환율이 많이 올랐다고 하던데요?", "intent": "question"},
-            {"sender_type": "AGENT", "content": "네, 맞습니다. 원/달러 환율이 1,300원을 돌파하며 연중 최고치를 기록했습니다. 이는 수출 기업들에게 긍정적인 영향을 줄 것으로 예상됩니다.", "intent": "response"}
+            {"sender_type": "user", "content": "안녕하세요! 오늘 주요 금융 뉴스를 알려주세요.", "intent": "greeting"},
+            {"sender_type": "assistant", "content": "안녕하세요! 오늘의 주요 금융 뉴스를 요약해드리겠습니다. 한국은행이 기준금리를 3.5%로 동결했고, 삼성전자는 배당금을 30% 증액한다고 발표했습니다.", "intent": "response"},
+            {"sender_type": "user", "content": "원/달러 환율이 많이 올랐다고 하던데요?", "intent": "question"},
+            {"sender_type": "assistant", "content": "네, 맞습니다. 원/달러 환율이 1,300원을 돌파하며 연중 최고치를 기록했습니다. 이는 수출 기업들에게 긍정적인 영향을 줄 것으로 예상됩니다.", "intent": "response"}
         ],
         [
-            {"sender_type": "USER", "content": "삼성전자 주식 전망이 어떤가요?", "intent": "question"},
-            {"sender_type": "AGENT", "content": "삼성전자는 최근 배당금을 30% 증액한다고 발표했습니다. 이는 주주 가치 제고를 위한 긍정적인 신호로 해석됩니다.", "intent": "response"}
+            {"sender_type": "user", "content": "삼성전자 주식 전망이 어떤가요?", "intent": "question"},
+            {"sender_type": "assistant", "content": "삼성전자는 최근 배당금을 30% 증액한다고 발표했습니다. 이는 주주 가치 제고를 위한 긍정적인 신호로 해석됩니다.", "intent": "response"}
         ]
     ]
     
@@ -241,30 +241,30 @@ def create_sample_dialogues(sessions):
                     )
                     if response.status_code == 201:
                         created_dialogues += 1
-                        print(f"✅ Dialogue created: {dialogue['sender_type']} - {dialogue['content'][:30]}...")
+                        print(f"[OK] Dialogue created: {dialogue['sender_type']} - {dialogue['content'][:30]}...")
                 except Exception as e:
-                    print(f"❌ Error creating dialogue: {e}")
+                    print(f"[ERROR] Error creating dialogue: {e}")
     
-    print(f"\n✨ Total dialogues created: {created_dialogues}")
+    print(f"\n[SUCCESS] Total dialogues created: {created_dialogues}")
 
 
 def main():
     """메인 함수"""
     print("=" * 70)
-    print("🚀 샘플 데이터 생성 시작")
+    print("[INFO] Sample Data Creation Started")
     print("=" * 70)
     
     # 백엔드 서버 연결 확인
     try:
         response = requests.get("http://localhost:8000/health", timeout=5)
         if response.status_code == 200:
-            print("✅ 백엔드 서버 연결 성공\n")
+            print("[OK] Backend server connected\n")
         else:
-            print("❌ 백엔드 서버 응답 이상")
+            print("[ERROR] Backend server response error")
             return
     except Exception as e:
-        print(f"❌ 백엔드 서버에 연결할 수 없습니다: {e}")
-        print("💡 먼저 백엔드 서버를 실행해주세요: python main.py")
+        print(f"[ERROR] Cannot connect to backend server: {e}")
+        print("[INFO] Please start backend server first: python main.py")
         return
     
     # 샘플 데이터 생성
@@ -280,17 +280,19 @@ def main():
             create_sample_dialogues(sessions)
     
     print("\n" + "=" * 70)
-    print("✨ 샘플 데이터 생성 완료!")
+    print("[SUCCESS] Sample Data Creation Completed!")
     print("=" * 70)
-    print("\n📊 생성된 데이터:")
-    print(f"   - 사용자: {len(users)}명")
-    print(f"   - 뉴스: {len(news_items)}개")
-    print(f"   - 세션: {len(sessions) if 'sessions' in locals() else 0}개")
-    print("\n💡 이제 Streamlit 앱에서 데이터를 확인할 수 있습니다!")
+    print(f"\n[SUMMARY] Created Data:")
+    print(f"   - Users: {len(users)}")
+    print(f"   - News: {len(news_items)}")
+    print(f"   - Sessions: {len(sessions) if 'sessions' in locals() else 0}")
+    print("\n[INFO] You can now check the data in Streamlit app!")
     print("=" * 70)
 
 
 if __name__ == "__main__":
     main()
+
+
 
 
