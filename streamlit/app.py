@@ -80,8 +80,10 @@ def main():
                                 col_a, col_b = st.columns([4, 1])
                                 
                                 with col_a:
-                                    st.markdown(f"### 📰 {news['title']}")
-                                    st.markdown(f"**출처:** {news.get('source', 'N/A')} | **발행일:** {news.get('published_at', 'N/A')[:10]}")
+                                    st.markdown(f"### 📰 {news.get('title', '제목 없음')}")
+                                    published = news.get('published_at')
+                                    published_date = published[:10] if published else 'N/A'
+                                    st.markdown(f"**출처:** {news.get('source', 'N/A')} | **발행일:** {published_date}")
                                     
                                     if news.get('content'):
                                         with st.expander("📄 본문 보기"):
@@ -125,7 +127,7 @@ def main():
                                 col_a, col_b = st.columns([5, 1])
                                 
                                 with col_a:
-                                    st.markdown(f"### {i}. 📰 {news['title']}")
+                                    st.markdown(f"### {i}. 📰 {news.get('title', '제목 없음')}")
                                     st.markdown(f"**출처:** {news.get('source', 'N/A')}")
                                 
                                 with col_b:
@@ -270,12 +272,14 @@ def main():
                             st.balloons()
                             
                             # 생성된 사용자 정보 표시
+                            created = user.get('created_at')
+                            created_display = created[:19] if created else 'N/A'
                             st.info(f"""
                             **사용자 ID:** {user['user_id']}  
                             **이메일:** {user['email']}  
                             **사용자명:** {user.get('username', 'N/A')}  
                             **타입:** {user['user_type']}  
-                            **생성일:** {user['created_at'][:19]}
+                            **생성일:** {created_display}
                             """)
                             
                             # 사용자 ID를 클립보드에 복사할 수 있도록 표시
@@ -312,12 +316,14 @@ def main():
                         
                         users_data = []
                         for user in users:
+                            created = user.get('created_at')
+                            created_date = created[:10] if created else 'N/A'
                             users_data.append({
                                 "사용자 ID": user['user_id'],
                                 "이메일": user['email'],
                                 "사용자명": user.get('username', 'N/A'),
                                 "타입": user['user_type'],
-                                "생성일": user['created_at'][:10]
+                                "생성일": created_date
                             })
                         
                         df = pd.DataFrame(users_data)
@@ -326,13 +332,17 @@ def main():
                         # 개별 사용자 상세 정보
                         with st.expander("🔍 사용자 상세 정보"):
                             for i, user in enumerate(users, 1):
+                                created = user.get('created_at')
+                                created_display = created[:19] if created else 'N/A'
+                                last_active = user.get('last_active_at')
+                                last_active_display = last_active[:19] if last_active else 'N/A'
                                 st.markdown(f"""
                                 **{i}. {user.get('username', user['email'])}**
                                 - **ID:** `{user['user_id']}`
                                 - **이메일:** {user['email']}
                                 - **타입:** {user['user_type']}
-                                - **생성일:** {user['created_at'][:19]}
-                                - **최근 활동:** {user.get('last_active_at', 'N/A')[:19] if user.get('last_active_at') else 'N/A'}
+                                - **생성일:** {created_display}
+                                - **최근 활동:** {last_active_display}
                                 """)
                                 st.markdown("---")
                     else:

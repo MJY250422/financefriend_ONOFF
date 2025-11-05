@@ -16,7 +16,7 @@ import streamlit as st
 
 DEFAULT_BACKEND_URL = os.getenv(
     "BACKEND_URL",
-    "https://financefriend-backend.onrender.com"  # 기본값: Render 배포 서버
+    "https://financefriend-onoff-backend.onrender.com"  # 기본값: Render 배포 서버
 )
 
 # 로컬 개발 시에는 아래 주석을 해제하고 위를 주석 처리하세요:
