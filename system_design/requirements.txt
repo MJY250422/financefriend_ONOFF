@@ -7,7 +7,7 @@ sqlalchemy==2.0.25
 psycopg2-binary==2.9.9
 
 # 데이터 검증
-pydantic[email]==2.5.3
+pydantic[email]>=2.5.3
 
 # 비밀번호 해싱
 passlib[bcrypt]==1.7.4
