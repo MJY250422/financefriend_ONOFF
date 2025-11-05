@@ -93,7 +93,7 @@ class NewsUpdate(BaseModel):
 class NewsResponse(NewsBase):
     """뉴스 응답"""
     news_id: int
-    created_at: Optional[datetime] = None
+    created_at: datetime
     updated_at: Optional[datetime] = None
     
     model_config = ConfigDict(from_attributes=True)
