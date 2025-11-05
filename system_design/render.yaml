@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: financefriend-backend
+    runtime: python
+    region: singapore
+    plan: free
+    branch: feature/connect_streamlit_fastapi
+    rootDir: system_design
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: API_HOST
+        value: 0.0.0.0
+      - key: API_PORT
+        value: 8000
+      - key: API_RELOAD
+        value: False
+      - key: ALLOWED_ORIGINS
+        value: "*"
+      - key: LOG_LEVEL
+        value: INFO
+      - key: DATABASE_URL
+        sync: false
+        # Note: DATABASE_URL must be set manually in Render Dashboard
+        # It should contain your Supabase connection string:
+        # postgresql://postgres:[PASSWORD]@aws-0-ap-northeast-2.pooler.supabase.com:6543/postgres
+

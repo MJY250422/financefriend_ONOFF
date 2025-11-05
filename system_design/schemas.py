@@ -71,6 +71,7 @@ class NewsBase(BaseModel):
     title: str = Field(..., max_length=500)
     url: str = Field(..., max_length=1000)
     content: Optional[str] = None
+    summary: Optional[str] = None  # 뉴스 요약 필드 추가
     source: Optional[str] = Field(None, max_length=100)
     published_at: Optional[datetime] = None
 
@@ -84,6 +85,7 @@ class NewsUpdate(BaseModel):
     """뉴스 수정 요청"""
     title: Optional[str] = Field(None, max_length=500)
     content: Optional[str] = None
+    summary: Optional[str] = None  # 요약 업데이트 지원
     source: Optional[str] = Field(None, max_length=100)
     published_at: Optional[datetime] = None
 
@@ -212,6 +214,35 @@ class DialogueResponse(BaseModel):
     sender_type: SenderType
     content: str
     intent: Optional[str] = None
+    created_at: datetime
+    
+    model_config = ConfigDict(from_attributes=True)
+
+
+# ============ EventLog 스키마 ============
+class EventLogCreate(BaseModel):
+    """이벤트 로그 생성 요청"""
+    event_time: datetime
+    session_id: Optional[int] = None
+    dialogue_id: Optional[int] = None
+    event_name: str
+    surface: Optional[str] = None
+    source: Optional[str] = None
+    ref_id: Optional[str] = None
+    payload: Optional[dict] = None
+
+
+class EventLogResponse(BaseModel):
+    """이벤트 로그 응답"""
+    id: int
+    event_time: datetime
+    session_id: Optional[int] = None
+    dialogue_id: Optional[int] = None
+    event_name: str
+    surface: Optional[str] = None
+    source: Optional[str] = None
+    ref_id: Optional[str] = None
+    payload: Optional[dict] = None
     created_at: datetime
     
     model_config = ConfigDict(from_attributes=True)

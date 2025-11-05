@@ -3,18 +3,33 @@
 Streamlit 앱에서 백엔드 API를 호출하기 위한 클래스
 """
 import requests
+import os
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 import streamlit as st
 
 
+# ========== 백엔드 URL 설정 ==========
+# 환경 변수로 자동 전환 가능
+# 로컬 개발: export BACKEND_URL=http://localhost:8000
+# Render 배포: export BACKEND_URL=https://financefriend-backend.onrender.com
+
+DEFAULT_BACKEND_URL = os.getenv(
+    "BACKEND_URL",
+    "https://financefriend-backend.onrender.com"  # 기본값: Render 배포 서버
+)
+
+# 로컬 개발 시에는 아래 주석을 해제하고 위를 주석 처리하세요:
+# DEFAULT_BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+
+
 class BackendAPIClient:
     """백엔드 API 클라이언트"""
     
-    def __init__(self, base_url: str = "http://localhost:8000"):
+    def __init__(self, base_url: str = DEFAULT_BACKEND_URL):
         """
         Args:
-            base_url: 백엔드 API 기본 URL
+            base_url: 백엔드 API 기본 URL (기본값: 환경 변수 또는 Render 서버)
         """
         self.base_url = base_url
         self.api_v1 = f"{base_url}/api/v1"
@@ -359,12 +374,12 @@ class BackendAPIClient:
 # ========== Streamlit 통합 헬퍼 ==========
 
 @st.cache_resource
-def get_api_client(base_url: str = "http://localhost:8000") -> BackendAPIClient:
+def get_api_client(base_url: str = DEFAULT_BACKEND_URL) -> BackendAPIClient:
     """
     API 클라이언트 싱글톤 (Streamlit 캐시 사용)
     
     Args:
-        base_url: 백엔드 API 기본 URL
+        base_url: 백엔드 API 기본 URL (기본값: 환경 변수 또는 Render 서버)
         
     Returns:
         BackendAPIClient 인스턴스

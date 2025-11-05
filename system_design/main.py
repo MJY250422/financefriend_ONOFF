@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 import uvicorn
 
 from database import get_db, init_db
-from routers import users, sessions, news, agent_tasks, dialogues
+from routers import users, sessions, news, agent_tasks, dialogues, event_logs
 from schemas import HealthCheck
 
 # -----------------------------
@@ -51,6 +51,7 @@ app.include_router(sessions.router, prefix="/api/v1/sessions", tags=["Sessions"]
 app.include_router(news.router, prefix="/api/v1/news", tags=["News"])
 app.include_router(agent_tasks.router, prefix="/api/v1/agent-tasks", tags=["Agent Tasks"])
 app.include_router(dialogues.router, prefix="/api/v1/dialogues", tags=["Dialogues"])
+app.include_router(event_logs.router, prefix="/api/v1/event-logs", tags=["Event Logs"])
 
 # -----------------------------
 # 앱 이벤트

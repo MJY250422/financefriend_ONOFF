@@ -56,6 +56,7 @@ class News(Base):
     title = Column(String(500), nullable=False)
     url = Column(String(1000), unique=True, nullable=False)
     content = Column(Text)
+    summary = Column(Text)  # 뉴스 요약 컬럼 추가
     source = Column(String(100))
     published_at = Column(DateTime)
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -148,3 +149,19 @@ class Dialogue(Base):
     # Relationships
     session = relationship("Session", back_populates="dialogues")
     agent_tasks = relationship("AgentTask", back_populates="dialogue", cascade="all, delete-orphan")
+
+
+class EventLog(Base):
+    """이벤트 로그 테이블"""
+    __tablename__ = 'event_logs'
+    
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    event_time = Column(DateTime, nullable=False)
+    session_id = Column(Integer, ForeignKey('sessions.session_id'))
+    dialogue_id = Column(BigInteger, ForeignKey('dialogues.dialogue_id'))
+    event_name = Column(Text, nullable=False)
+    surface = Column(Text)
+    source = Column(Text)
+    ref_id = Column(Text)
+    payload = Column(JSON)
+    created_at = Column(DateTime, default=datetime.utcnow)
