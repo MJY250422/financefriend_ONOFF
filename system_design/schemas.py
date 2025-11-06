@@ -234,7 +234,7 @@ class EventLogCreate(BaseModel):
 
 class EventLogResponse(BaseModel):
     """이벤트 로그 응답"""
-    id: int
+    event_id: int
     event_time: datetime
     session_id: Optional[int] = None
     dialogue_id: Optional[int] = None

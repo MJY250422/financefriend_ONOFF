@@ -69,7 +69,7 @@ def get_event_log(event_log_id: int, db: Session = Depends(get_db)):
     
     - **event_log_id**: 이벤트 로그 ID
     """
-    event_log = db.query(EventLog).filter(EventLog.id == event_log_id).first()
+    event_log = db.query(EventLog).filter(EventLog.event_id == event_log_id).first()
     if not event_log:
         raise HTTPException(status_code=404, detail="Event log not found")
     return event_log
@@ -132,7 +132,7 @@ def delete_event_log(event_log_id: int, db: Session = Depends(get_db)):
     
     - **event_log_id**: 이벤트 로그 ID
     """
-    event_log = db.query(EventLog).filter(EventLog.id == event_log_id).first()
+    event_log = db.query(EventLog).filter(EventLog.event_id == event_log_id).first()
     if not event_log:
         raise HTTPException(status_code=404, detail="Event log not found")
     

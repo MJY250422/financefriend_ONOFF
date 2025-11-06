@@ -155,7 +155,7 @@ class EventLog(Base):
     """이벤트 로그 테이블"""
     __tablename__ = 'event_logs'
     
-    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    event_id = Column(BigInteger, primary_key=True, autoincrement=True)
     event_time = Column(DateTime, nullable=False)
     session_id = Column(Integer, ForeignKey('sessions.session_id'))
     dialogue_id = Column(BigInteger, ForeignKey('dialogues.dialogue_id'))
